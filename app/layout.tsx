@@ -1,12 +1,17 @@
 import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Visionary IT Solutions | Kathmandu",
   description:
     "Visionary IT Solutions builds web platforms, cloud systems, AI automation, and custom software for growing businesses in Kathmandu, Nepal.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>{children}</body>
