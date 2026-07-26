@@ -2,20 +2,23 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SERVICE_ICONS } from "@/components/home/serviceIcons";
+import { PRODUCT_ICONS } from "@/components/home/productIcons";
 import { C, mono } from "@/components/tokens";
+import type { Product } from "@/types/product";
 
-const ICON_OPTIONS = Object.keys(SERVICE_ICONS);
+const ICON_OPTIONS = Object.keys(PRODUCT_ICONS);
 
-export default function ServiceForm({ service }: { service?: any }) {
+export default function ProductForm({ product }: { product?: Product }) {
   const router = useRouter();
-  const isEdit = Boolean(service?.id);
+  const isEdit = Boolean(product?.id);
   const [form, setForm] = useState({
-    slug: service?.slug ?? "",
-    title: service?.title ?? "",
-    summary: service?.summary ?? "",
-    description: service?.description ?? "",
-    icon: service?.icon ?? ICON_OPTIONS[0],
+    slug: product?.slug ?? "",
+    name: product?.name ?? "",
+    tag: product?.tag ?? "",
+    description: product?.description ?? "",
+    icon: product?.icon ?? ICON_OPTIONS[0],
+    url: product?.url ?? "",
+    order: product?.order ?? 0,
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -25,19 +28,19 @@ export default function ServiceForm({ service }: { service?: any }) {
     setSaving(true);
     setError("");
     try {
-      const res = await fetch(isEdit ? `/api/services/${service.id}` : "/api/services", {
+      const res = await fetch(isEdit ? `/api/products/${product!.id}` : "/api/products", {
         method: isEdit ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Could not save this service.");
+        throw new Error(data.error || "Could not save this product.");
       }
-      router.push("/dashboard/services");
+      router.push("/dashboard/products");
       router.refresh();
     } catch (err: any) {
-      setError(err.message || "Could not save this service.");
+      setError(err.message || "Could not save this product.");
     } finally {
       setSaving(false);
     }
@@ -49,25 +52,38 @@ export default function ServiceForm({ service }: { service?: any }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-xl">
       <div>
-        <label style={labelStyle} className="block mb-2 uppercase">Title</label>
+        <label style={labelStyle} className="block mb-2 uppercase">Name</label>
         <input
           required
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="w-full px-4 py-3 rounded-lg focus-ring"
           style={inputStyle}
+          placeholder="VisionBookings"
         />
       </div>
 
       <div>
-        <label style={labelStyle} className="block mb-2 uppercase">Slug (used in the URL)</label>
+        <label style={labelStyle} className="block mb-2 uppercase">Slug</label>
         <input
           required
           value={form.slug}
           onChange={(e) => setForm({ ...form, slug: e.target.value })}
           className="w-full px-4 py-3 rounded-lg focus-ring"
           style={inputStyle}
-          placeholder="cloud-infrastructure"
+          placeholder="visionbookings"
+        />
+      </div>
+
+      <div>
+        <label style={labelStyle} className="block mb-2 uppercase">Tag (category)</label>
+        <input
+          required
+          value={form.tag}
+          onChange={(e) => setForm({ ...form, tag: e.target.value })}
+          className="w-full px-4 py-3 rounded-lg focus-ring"
+          style={inputStyle}
+          placeholder="Booking System"
         />
       </div>
 
@@ -86,26 +102,37 @@ export default function ServiceForm({ service }: { service?: any }) {
       </div>
 
       <div>
-        <label style={labelStyle} className="block mb-2 uppercase">Summary (shown on cards)</label>
+        <label style={labelStyle} className="block mb-2 uppercase">Product URL</label>
+        <input
+          type="url"
+          value={form.url}
+          onChange={(e) => setForm({ ...form, url: e.target.value })}
+          className="w-full px-4 py-3 rounded-lg focus-ring"
+          style={inputStyle}
+          placeholder="https://visionbookings.com"
+        />
+      </div>
+
+      <div>
+        <label style={labelStyle} className="block mb-2 uppercase">Description</label>
         <textarea
           required
-          rows={2}
-          value={form.summary}
-          onChange={(e) => setForm({ ...form, summary: e.target.value })}
+          rows={4}
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
           className="w-full px-4 py-3 rounded-lg focus-ring"
           style={{ ...inputStyle, resize: "none" }}
         />
       </div>
 
       <div>
-        <label style={labelStyle} className="block mb-2 uppercase">Description (shown on detail page)</label>
-        <textarea
-          required
-          rows={5}
-          value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
+        <label style={labelStyle} className="block mb-2 uppercase">Display order</label>
+        <input
+          type="number"
+          value={form.order}
+          onChange={(e) => setForm({ ...form, order: Number(e.target.value) })}
           className="w-full px-4 py-3 rounded-lg focus-ring"
-          style={{ ...inputStyle, resize: "none" }}
+          style={inputStyle}
         />
       </div>
 
@@ -118,7 +145,7 @@ export default function ServiceForm({ service }: { service?: any }) {
           className="px-6 py-3 rounded-full focus-ring"
           style={{ background: C.accent, color: C.bg, fontWeight: 600, fontSize: 14, opacity: saving ? 0.6 : 1 }}
         >
-          {saving ? "Saving…" : isEdit ? "Save changes" : "Create service"}
+          {saving ? "Saving…" : isEdit ? "Save changes" : "Create product"}
         </button>
       </div>
     </form>

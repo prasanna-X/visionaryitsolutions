@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "lib/supabase/server.js", "public/firebase-messaging-sw.js", "middleware.ts"  ],
+, "lib/supabase/server.ts", "public/firebase-messaging-sw.js", "middleware.ts"  ],
   "exclude": ["node_modules"]
 }
