@@ -65,7 +65,7 @@ function ProductMark({ product }: { product: Product }) {
   if (isImageSrc(product.logo)) {
     return (
       <div
-        className="w-11 h-11 rounded-full flex items-center justify-center overflow-hidden mb-6"
+        className="w-11 h-11 rounded-full flex items-center justify-center overflow-hidden"
         style={{ background: C.accentDeep }}
       >
         <Image src={product.logo} alt={`${product.title} logo`} width={28} height={28} className="object-contain" />
@@ -77,7 +77,7 @@ function ProductMark({ product }: { product: Product }) {
     const Icon = getProductIcon(product.logo);
     return (
       <div
-        className="w-11 h-11 rounded-full flex items-center justify-center mb-6"
+        className="w-11 h-11 rounded-full flex items-center justify-center"
         style={{ background: C.accentDeep }}
       >
         <Icon size={20} color={C.accentSoft} />
@@ -95,7 +95,7 @@ function ProductMark({ product }: { product: Product }) {
 
   return (
     <div
-      className="w-11 h-11 rounded-full flex items-center justify-center mb-6"
+      className="w-11 h-11 rounded-full flex items-center justify-center"
       style={{ background: C.accentDeep }}
     >
       <span style={{ fontFamily: display, fontWeight: 700, color: C.accentSoft, fontSize: 14 }}>{initials}</span>
@@ -144,31 +144,36 @@ export default async function ProductsPage() {
                 className="service-card p-7 rounded-2xl focus-ring group flex flex-col"
                 style={{ background: C.panel, border: `1px solid ${C.line}` }}
               >
-                <ProductMark product={p} />
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="mb-0 shrink-0">
+                    <ProductMark product={p} />
+                  </div>
 
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg">
-                    {p.title}
-                  </h3>
-                  {p.featured && (
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg">
+                        {p.title}
+                      </h3>
+                      {p.featured && (
+                        <span
+                          style={{ fontFamily: mono, fontSize: 10, color: C.accent, textTransform: "uppercase" }}
+                        >
+                          Featured
+                        </span>
+                      )}
+                      <ArrowUpRight
+                        size={16}
+                        color={C.inkDim}
+                        className="opacity-0 group-hover:opacity-70 transition-opacity"
+                      />
+                    </div>
                     <span
-                      style={{ fontFamily: mono, fontSize: 10, color: C.accent, textTransform: "uppercase" }}
+                      style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1.5, color: C.accent, textTransform: "uppercase" }}
                     >
-                      Featured
+                      {p.category}
                     </span>
-                  )}
-                  <ArrowUpRight
-                    size={16}
-                    color={C.inkDim}
-                    className="opacity-0 group-hover:opacity-70 transition-opacity"
-                  />
+                  </div>
                 </div>
-                <span
-                  style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1.5, color: C.accent, textTransform: "uppercase" }}
-                  className="mb-3"
-                >
-                  {p.category}
-                </span>
                 {p.tagline && (
                   <p style={{ color: C.ink, fontSize: 13, fontStyle: "italic" }} className="mb-2">
                     {p.tagline}
