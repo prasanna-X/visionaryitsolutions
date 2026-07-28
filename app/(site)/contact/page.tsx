@@ -1,9 +1,7 @@
-// "/contact"
 import { Phone, MapPin } from "lucide-react";
 import { CloverMark, CircuitField } from "@/components/home/Marks";
 import { C, display, mono } from "@/components/tokens";
-import ContactForm from '@/components/forms/ContactForm';
-// import ContactForm from "./ContactForm";
+import ContactForm from "./ContactForm";
 
 export const metadata = { title: "Contact — Visionary IT Solutions" };
 

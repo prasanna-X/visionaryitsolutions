@@ -47,7 +47,7 @@ interface BadgeProps {
 /* Full circular badge — now a static PNG emblem instead of hand-drawn SVG.
    Drop the exported artwork at /public/images/vits_logo.png (square,
    ideally 2x the largest rendered size for crisp retina display). */
-export function Badge({ size = 220, src = "/images/vits_logo.png" }: BadgeProps) {
+export function Badge({ size = 220, src = "/images/vits_logo_inverse.png" }: BadgeProps) {
   return (
     <Image
       src={src}

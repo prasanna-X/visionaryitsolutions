@@ -1,12 +1,17 @@
 export interface Product {
   id: string;
   slug: string;
-  name: string;
-  tag: string;
+  title: string;
   description: string;
-  icon?: string | null;
-  url?: string | null;
-  order: number;
+  category: string;
+  logo?: string | null;
+  tagline?: string | null;
+  website_url?: string | null;
+  status: 'draft' | 'published' | 'archived';
+  featured: boolean;
+  display_order: number;
+  meta_title?: string | null;
+  meta_description?: string | null;
   created_at?: string;
   updated_at?: string;
 }

@@ -1,15 +1,13 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { CloverMark } from "@/components/home/Marks";
 import { getProductIcon } from "@/components/home/productIcons";
-import { C } from "@/components/tokens";
+import { C, display, mono } from "@/components/tokens";
 import { getAllProducts } from "@/lib/services/productService";
 import type { Product } from "@/types/product";
 
 export const metadata = { title: "Products — Visionary IT Solutions" };
 
-/* Fallback content shown only if the Supabase `products` table is empty
-   or unreachable (e.g. before it's been created/seeded), so the page
-   never renders blank. Once real rows exist, those take over automatically. */
 const FALLBACK_PRODUCTS: Product[] = [
   {
     id: "fallback-1",
@@ -58,52 +56,63 @@ export default async function ProductsPage() {
   const list = products.length ? products : FALLBACK_PRODUCTS;
 
   return (
-    <main className="w-full px-6 py-24 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-6xl">
-        <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
-          Products
+    <main id="product" style={{ background: C.panel2, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+      <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+        <div className="flex items-center gap-2 mb-3">
+          <CloverMark size={10} fill={C.accent} />
+          <span style={{ fontFamily: mono, fontSize: 12, letterSpacing: 3, color: C.accent, textTransform: "uppercase" }}>
+            What we've built
+          </span>
+        </div>
+        <h1 style={{ fontFamily: display, fontWeight: 700 }} className="text-3xl md:text-4xl max-w-xl mb-4">
+          Products we've launched and run ourselves.
         </h1>
-        <p className="max-w-2xl text-base md:text-lg opacity-70 mb-16">
-          A brief intro describing your product lineup or philosophy goes here.
-        </p>
+        {/* <p style={{ color: C.inkDim, lineHeight: 1.75 }} className="max-w-md mb-14">
+        A brief intro describing your product lineup or philosophy goes here.
+      </p> */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {list.map((p) => {
-            const Icon = getProductIcon(p.icon);
-            return (
-              <Link
-                key={p.id}
-                href={p.url || "#"}
-                target={p.url ? "_blank" : undefined}
-                rel={p.url ? "noopener noreferrer" : undefined}
-                style={{ borderColor: C.ink }}
-                className="group rounded-2xl border border-opacity-10 p-6 flex flex-col gap-4 transition-transform hover:-translate-y-1"
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ background: C.accentDeep ?? C.ink, color: C.bg }}
+        {list.length === 0 ? (
+          <p style={{ color: C.inkDim }}>No products published yet — check back soon.</p>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {list.map((p) => {
+              const Icon = getProductIcon(p.icon);
+              return (
+                <Link
+                  key={p.id}
+                  href={p.url || "#"}
+                  target={p.url ? "_blank" : undefined}
+                  rel={p.url ? "noopener noreferrer" : undefined}
+                  className="service-card p-7 rounded-2xl focus-ring group flex flex-col"
+                  style={{ background: C.panel, border: `1px solid ${C.line}` }}
                 >
-                  <Icon size={22} />
-                </div>
+                  <div className="w-11 h-11 rounded-full flex items-center justify-center mb-6" style={{ background: C.accentDeep }}>
+                    <Icon size={20} color={C.accentSoft} />
+                  </div>
 
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-xl font-medium">{p.name}</h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg">
+                      {p.name}
+                    </h3>
                     <ArrowUpRight
                       size={16}
+                      color={C.inkDim}
                       className="opacity-0 group-hover:opacity-70 transition-opacity"
                     />
                   </div>
-                  <span className="text-xs uppercase tracking-wide opacity-60" style={{ letterSpacing: 1 }}>
+                  <span
+                    style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1.5, color: C.accent, textTransform: "uppercase" }}
+                    className="mb-3"
+                  >
                     {p.tag}
                   </span>
-                </div>
 
-                <p className="text-sm opacity-70">{p.description}</p>
-              </Link>
-            );
-          })}
-        </div>
+                  <p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{p.description}</p>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </main>
   );

@@ -18,7 +18,7 @@ export default function Topbar({ admin }: { admin: { name: string; email: string
       className="flex items-center justify-between px-8 py-4"
       style={{ borderBottom: `1px solid ${C.line}`, background: C.panel2 }}
     >
-      <span style={{ fontFamily: mono, fontSize: 12, letterSpacing: 1.5, color: C.inkDim, textTransform: "uppercase" }}>
+      <span style={{ fontFamily: mono, fontSize: 16, letterSpacing: 1.5, color: C.inkDim, textTransform: "uppercase" }}>
         Dashboard
       </span>
 

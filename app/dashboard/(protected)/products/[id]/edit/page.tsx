@@ -1,7 +1,7 @@
 import ProductForm from '@/components/dashboard/products/ProductForm';
 import { getProductById } from '@/lib/services/productService';
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
-  const product = await getProductById(params.id);
-  return <ProductForm product={product ?? undefined} />;
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const product = await getProductById((await params).id);
+  return <ProductForm product={product} />;
 }

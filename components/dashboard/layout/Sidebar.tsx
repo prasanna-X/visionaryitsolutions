@@ -25,9 +25,9 @@ export default function Sidebar() {
       style={{ background: C.panel2, borderRight: `1px solid ${C.line}` }}
     >
       <div className="flex items-center gap-2 px-2 mb-8">
-        <CloverMark size={20} fill={C.accent} />
-        <span style={{ fontFamily: display, fontWeight: 700, fontSize: 13, letterSpacing: 0.5 }}>
-          VISIONARY IT
+        {/* <CloverMark size={20} fill={C.accent} /> */}
+        <span style={{ fontFamily: display, fontWeight: 700, fontSize: 17, letterSpacing: 0.5 }}>
+          VIVAAN IT SOLUTIONS
         </span>
       </div>
 

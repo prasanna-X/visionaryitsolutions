@@ -1,14 +1,67 @@
 import Link from "next/link";
-import { CloverMark } from "@/components/marketing/Marks";
-import { getServiceIcon } from "@/components/marketing/serviceIcons";
+import { Code2, Cloud, Wrench, Bot, ShieldCheck, LineChart } from "lucide-react";
+import { CloverMark } from "@/components/home/Marks";
+import { getServiceIcon } from "@/components/home/serviceIcons";
 import { C, display, mono } from "@/components/tokens";
 import { getAllServices } from "@/lib/services/serviceService";
 
 export const metadata = { title: "Services — Visionary IT Solutions" };
 
-// "/services" — full listing page (deep-linkable version of the homepage section).
+// Used only if the API call fails or returns an empty list.
+const FALLBACK_SERVICES = [
+  {
+    id: "web-app-development",
+    slug: "web-app-development",
+    Icon: Code2,
+    title: "Web & App Development",
+    summary:
+      "Custom websites and applications shaped around how your team actually works, from first sketch through to production.",
+  },
+  {
+    id: "cloud-infrastructure",
+    slug: "cloud-infrastructure",
+    Icon: Cloud,
+    title: "Cloud & Infrastructure",
+    summary:
+      "Servers, storage, and deployments set up to stay online, scale with demand, and cost less to run month to month.",
+  },
+  {
+    id: "it-consulting-support",
+    slug: "it-consulting-support",
+    Icon: Wrench,
+    title: "IT Consulting & Support",
+    summary:
+      "Hands-on, ongoing support and straight technical advice, so the decision-making doesn't fall entirely on you.",
+  },
+  {
+    id: "ai-automation",
+    slug: "ai-automation",
+    Icon: Bot,
+    title: "AI Automation",
+    summary:
+      "AI-driven workflows and integrations that take repetitive work off your team's plate and speed up daily operations.",
+  },
+  {
+    id: "cybersecurity",
+    slug: "cybersecurity",
+    Icon: ShieldCheck,
+    title: "Cybersecurity",
+    summary:
+      "Practical protection for your data, network, and customers, sized to your business rather than bolted on.",
+  },
+  {
+    id: "digital-transformation",
+    slug: "digital-transformation",
+    Icon: LineChart,
+    title: "Digital Transformation",
+    summary:
+      "Moving paper trails and spreadsheets onto systems that actually scale as the business grows around them.",
+  },
+];
+
 export default async function ServicesPage() {
-  const services = await getAllServices().catch(() => []);
+  const apiServices = await getAllServices().catch(() => []);
+  const services = apiServices.length > 0 ? apiServices : FALLBACK_SERVICES;
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 md:py-28">
@@ -27,7 +80,7 @@ export default async function ServicesPage() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((s) => {
-            const Icon = getServiceIcon(s.icon);
+            const Icon = s.Icon ?? getServiceIcon(s.icon);
             return (
               <Link
                 key={s.id}

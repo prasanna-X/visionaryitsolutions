@@ -1,25 +1,56 @@
-import { db } from '@/lib/db';
+import { supabase, supabaseAdmin } from '@/lib/supabase';
+
+const TABLE = 'services';
 
 export async function getAllServices() {
-  return db.service.findMany({ orderBy: { order: 'asc' } });
-}
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select('*')
+    .order('sort_order', { ascending: true }); // was 'display_order'
 
-export async function getServiceById(id: string) {
-  return db.service.findUnique({ where: { id } });
+  if (error) throw error;
+  return data ?? [];
 }
 
 export async function getServiceBySlug(slug: string) {
-  return db.service.findUnique({ where: { slug } });
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select('*')
+    .eq('slug', slug)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
 }
 
-export async function createService(data: { slug: string; title: string; summary: string; description: string }) {
-  return db.service.create({ data });
+export async function getServiceById(id: string) {
+  const { data, error } = await supabaseAdmin.from(TABLE).select('*').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return data;
 }
 
-export async function updateService(id: string, data: Partial<{ title: string; summary: string; description: string }>) {
-  return db.service.update({ where: { id }, data });
+export async function createService(data: {
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;        // NOT NULL in schema, no default — required
+  sort_order?: number;  // was 'summary' (doesn't exist)
+}) {
+  const { data: service, error } = await supabaseAdmin.from(TABLE).insert(data).select().single();
+  if (error) throw error;
+  return service;
+}
+
+export async function updateService(
+  id: string,
+  data: Partial<{ slug: string; title: string; description: string; icon: string; sort_order: number }>
+) {
+  const { data: service, error } = await supabaseAdmin.from(TABLE).update(data).eq('id', id).select().single();
+  if (error) throw error;
+  return service;
 }
 
 export async function deleteService(id: string) {
-  return db.service.delete({ where: { id } });
+  const { error } = await supabaseAdmin.from(TABLE).delete().eq('id', id);
+  if (error) throw error;
 }

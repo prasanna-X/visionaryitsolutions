@@ -8,8 +8,17 @@ export async function getAllProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from(TABLE)
     .select('*')
-    .order('order', { ascending: true });
+    .order('display_order', { ascending: true });
+  if (error) throw error;
+  return data ?? [];
+}
 
+// Admin read — used by the dashboard (service role key, bypasses RLS).
+export async function getAllProductsAdmin(): Promise<Product[]> {
+  const { data, error } = await supabaseAdmin
+    .from(TABLE)
+    .select('*')
+    .order('display_order', { ascending: true });
   if (error) throw error;
   return data ?? [];
 }
@@ -20,7 +29,6 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .select('*')
     .eq('slug', slug)
     .maybeSingle();
-
   if (error) throw error;
   return data;
 }
