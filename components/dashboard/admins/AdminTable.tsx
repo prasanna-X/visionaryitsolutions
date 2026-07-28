@@ -17,7 +17,7 @@ import {
 import { C, display, mono } from "@/components/tokens";
 import type { Admin } from "@/types/admin";
 
-type SortKey = "name" | "email" | "role" | "created_at";
+type SortKey = "name" | "email" | "phone" | "role" | "created_at";
 type SortDir = "asc" | "desc";
 
 const PAGE_SIZE = 10;
@@ -166,7 +166,7 @@ export default function AdminTable({ admins }: { admins: Admin[] }) {
                   </th>
                   <th className="text-left px-5 py-3">
                     <button
-                      onClick={() => toggleSort("email")}
+                      onClick={() => toggleSort("phone")}
                       className="flex items-center gap-1.5 focus-ring"
                       style={headerCellStyle}
                     >
