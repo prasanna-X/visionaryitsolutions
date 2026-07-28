@@ -1,16 +1,29 @@
-import { CalendarCheck, ShoppingBag, Clapperboard, Package, type LucideIcon } from "lucide-react";
+// components/home/productIcons.tsx
+import {
+  Calendar,
+  ShoppingBag,
+  Video,
+  Package,
+  type LucideIcon,
+} from "lucide-react";
 
-/* Products are stored in Supabase with a plain string `icon` key (see
-   types/product.ts) since React components can't be persisted. This maps
-   that key to the actual lucide icon shown on /products. Keep keys in
-   sync with the <select> options in ProductForm. */
-export const PRODUCT_ICONS: Record<string, LucideIcon> = {
-  calendar: CalendarCheck,
+// Map the keyword stored in products.logo (when it's not a URL) to an icon.
+const ICON_MAP: Record<string, LucideIcon> = {
+  calendar: Calendar,
   shopping: ShoppingBag,
-  video: Clapperboard,
-  package: Package,
+  video: Video,
 };
 
+const DEFAULT_ICON: LucideIcon = Package;
+
 export function getProductIcon(key?: string | null): LucideIcon {
-  return (key && PRODUCT_ICONS[key]) || Package;
+  if (!key) return DEFAULT_ICON;
+  return ICON_MAP[key.toLowerCase()] ?? DEFAULT_ICON;
+}
+
+// True if the logo value looks like something next/image can load
+// (absolute URL or a root-relative path), rather than an icon keyword.
+export function isImageSrc(value?: string | null): value is string {
+  if (!value) return false;
+  return value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/");
 }

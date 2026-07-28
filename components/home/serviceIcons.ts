@@ -1,19 +1,27 @@
 import { Code2, Cloud, Wrench, Bot, ShieldCheck, LineChart, type LucideIcon } from "lucide-react";
 
-/* Services are stored in the DB with a plain string `icon` key (see
-   prisma/schema.prisma → Service.icon) since React components can't be
-   persisted. This maps that key to the actual lucide icon used on the
-   public site and in the dashboard. Keep keys in sync with the <select>
-   options in ServiceForm. */
+/* Services table stores the exact Lucide component name as a string,
+   e.g. "ShieldCheck", "Bot", "Cloud", "Code2", "LineChart", "Wrench". */
 export const SERVICE_ICONS: Record<string, LucideIcon> = {
-  code: Code2,
+  code2: Code2,
   cloud: Cloud,
   wrench: Wrench,
   bot: Bot,
-  shield: ShieldCheck,
-  chart: LineChart,
+  shieldcheck: ShieldCheck,
+  linechart: LineChart,
 };
 
 export function getServiceIcon(key?: string | null): LucideIcon {
-  return (key && SERVICE_ICONS[key]) || Code2;
+  if (!key) return Code2;
+
+  // Normalize case/spacing so "ShieldCheck", "shieldcheck", "Shield Check" all match.
+  const normalized = key.trim().toLowerCase().replace(/[\s_-]/g, "");
+  const icon = SERVICE_ICONS[normalized];
+
+  if (!icon && process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.warn(`[getServiceIcon] No icon mapped for key: "${key}" — falling back to Code2.`);
+  }
+
+  return icon ?? Code2;
 }

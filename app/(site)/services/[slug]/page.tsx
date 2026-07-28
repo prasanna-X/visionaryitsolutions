@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { CloverMark } from "@/components/marketing/Marks";
-import { getServiceIcon } from "@/components/marketing/serviceIcons";
+import { CloverMark } from "@/components/home/Marks";
+import { getServiceIcon } from "@/components/home/serviceIcons";
 import { C, display, mono } from "@/components/tokens";
 import { getServiceBySlug, getAllServices } from "@/lib/services/serviceService";
 

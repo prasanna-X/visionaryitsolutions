@@ -94,7 +94,7 @@ export default async function ServicesPage() {
                 <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg mb-2">
                   {s.title}
                 </h3>
-                <p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{s.summary}</p>
+                <p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{s.description}</p>
               </Link>
             );
           })}
