@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, User, Shield, Wrench, Package, Users, Settings } from "lucide-react";
-import { CloverMark } from "@/components/home/Marks";
+import { LayoutGrid, User, Inbox, Shield, Wrench, Package, Users, Settings } from "lucide-react";
 import { C, display, mono } from "@/components/tokens";
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/dashboard", icon: LayoutGrid },
   { label: "My Profile", href: "/dashboard/profile", icon: User },
+  { label: "Submissions", href: "/dashboard/contact-submissions", icon: Inbox },
   { label: "Admins", href: "/dashboard/admins", icon: Shield },
   { label: "Services", href: "/dashboard/services", icon: Wrench },
   { label: "Products", href: "/dashboard/products", icon: Package },

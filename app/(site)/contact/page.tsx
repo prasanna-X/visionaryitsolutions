@@ -5,9 +5,6 @@ import ContactForm from "./ContactForm";
 
 export const metadata = { title: "Contact — Visionary IT Solutions" };
 
-// "/contact" — the only place this UI lives now. The interactive form is
-// split into ./ContactForm.tsx (a client component) since Next.js doesn't
-// allow "use client" and `export const metadata` in the same file.
 export default function ContactPage() {
   return (
     <section className="relative overflow-hidden" style={{ background: C.paper, color: C.paperInk }}>
