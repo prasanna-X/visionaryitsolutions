@@ -64,7 +64,7 @@ export default async function ServicesPage() {
   const services = apiServices.length > 0 ? apiServices : FALLBACK_SERVICES;
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+    <main id="services" className="max-w-6xl mx-auto px-6 py-20 md:py-28">
       <div className="flex items-center gap-2 mb-3">
         <CloverMark size={10} fill={C.accent} />
         <span style={{ fontFamily: mono, fontSize: 12, letterSpacing: 3, color: C.accent, textTransform: "uppercase" }}>

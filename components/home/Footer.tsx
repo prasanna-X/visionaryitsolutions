@@ -10,13 +10,13 @@ export default function Footer() {
         <div className="flex items-center gap-3">
           <Image
             src="/images/vits_logo_inverse.png"
-            alt="Visionary IT Solutions logo"
+            alt="VIVAAN IT Solutions logo"
             width={50}
             height={50}
             style={{ width: 50, height: 50, objectFit: "contain" }}
           />
           <span style={{ fontFamily: display, fontWeight: 700, letterSpacing: 0.5 }} className="text-sm">
-            VISIONARY IT SOLUTIONS
+            VIVAAN IT SOLUTIONS
           </span>
         </div>
 

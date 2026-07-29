@@ -18,11 +18,24 @@ export default function Hero() {
           </div>
 
           <h1
-            style={{ fontFamily: display, fontWeight: 700, lineHeight: 1.08, letterSpacing: -0.5 }}
+            style={{
+              fontFamily: display,
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: -0.5,
+            }}
             className="text-4xl sm:text-5xl md:text-[52px]"
           >
             Software that runs your business,
-            <span style={{ color: C.accent }}> not the other way around.</span>
+            <span
+              style={{
+                color: "transparent",
+                WebkitTextStroke: `1.5px ${C.accent}`,
+              }}
+            >
+              {" "}
+              not the other way around.
+            </span>
           </h1>
 
           <p style={{ color: C.inkDim, fontSize: 18, lineHeight: 1.7 }} className="mt-6 max-w-md">
@@ -50,7 +63,7 @@ export default function Hero() {
 
         <div className="flex justify-center md:justify-end">
           <div className="float-badge">
-            <Badge size={260} />
+            <Badge size={300} />
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ export const metadata = { title: "Contact — Visionary IT Solutions" };
 
 export default function ContactPage() {
   return (
-    <section className="relative overflow-hidden" style={{ background: C.paper, color: C.paperInk }}>
+    <section id="contact" className="relative overflow-hidden" style={{ background: C.paper, color: C.paperInk }}>
       <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-2 gap-0 rounded-3xl overflow-hidden md:my-10 md:shadow-2xl">
         <div className="p-9 md:p-12 relative overflow-hidden" style={{ background: C.bg, color: C.ink }}>
           <CircuitField opacity={0.08} />

@@ -120,7 +120,7 @@ export default async function ProductsPage() {
     .sort((a, b) => a.display_order - b.display_order);
 
   return (
-    <main id="product" style={{ background: C.panel2, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+    <main id="products" style={{ background: C.panel2, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
       <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
         <div className="flex items-center gap-2 mb-3">
           <span style={{ fontFamily: mono, fontSize: 12, letterSpacing: 3, color: C.accent, textTransform: "uppercase" }}>
