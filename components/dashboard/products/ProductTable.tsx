@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Pencil, Trash2, Plus, ArrowUpDown, Search } from "lucide-react";
+import { Pencil, Trash2, Plus, ArrowUpDown, Search, Eye, EyeOff, Loader2 } from "lucide-react";
 import { getProductIcon } from "@/components/home/productIcons";
 import { C, display, mono } from "@/components/tokens";
 import type { Product } from "@/types/product";
@@ -15,11 +15,30 @@ export default function ProductTable({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("display_order");
   const [sortAsc, setSortAsc] = useState(true);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this product? This can't be undone.")) return;
     await fetch(`/api/products/${id}`, { method: "DELETE" });
     router.refresh();
+  }
+
+  async function handleToggleStatus(p: Product) {
+    const nextStatus = p.status === "published" ? "draft" : "published";
+    setUpdatingId(p.id);
+    try {
+      const res = await fetch(`/api/products/${p.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: nextStatus }),
+      });
+      if (!res.ok) throw new Error("Failed to update status");
+      router.refresh();
+    } catch (err) {
+      alert("Couldn't update status. Please try again.");
+    } finally {
+      setUpdatingId(null);
+    }
   }
 
   function toggleSort(key: SortKey) {
@@ -115,12 +134,14 @@ export default function ProductTable({ products }: { products: Product[] }) {
                 <th className="text-left px-3 py-3"><SortButton label="Category" sortKey="category" /></th>
                 <th className="text-left px-3 py-3 w-28"><SortButton label="Status" sortKey="status" /></th>
                 <th className="text-left px-3 py-3 w-24"><SortButton label="Order" sortKey="display_order" /></th>
-                <th className="text-right px-5 py-3 w-24" style={headerStyle}>Actions</th>
+                <th className="text-right px-5 py-3 w-28" style={headerStyle}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((p, i) => {
                 const Icon = getProductIcon(p.logo);
+                const isPublished = p.status === "published";
+                const isUpdating = updatingId === p.id;
                 return (
                   <tr
                     key={p.id}
@@ -141,16 +162,29 @@ export default function ProductTable({ products }: { products: Product[] }) {
                       {p.category}
                     </td>
                     <td className="px-3 py-3">
-                      <span
+                      <button
+                        onClick={() => handleToggleStatus(p)}
+                        disabled={isUpdating}
+                        className="flex items-center gap-1.5 focus-ring"
+                        title={`Mark as ${isPublished ? "draft" : "published"}`}
                         style={{
                           fontFamily: mono,
                           fontSize: 11,
-                          color: p.status === "published" ? C.accentSoft : C.inkFaint,
+                          color: isPublished ? C.accentSoft : C.inkFaint,
                           textTransform: "uppercase",
+                          opacity: isUpdating ? 0.5 : 1,
+                          cursor: isUpdating ? "default" : "pointer",
                         }}
                       >
+                        {isUpdating ? (
+                          <Loader2 size={12} className="animate-spin" />
+                        ) : isPublished ? (
+                          <Eye size={12} />
+                        ) : (
+                          <EyeOff size={12} />
+                        )}
                         {p.status}
-                      </span>
+                      </button>
                     </td>
                     <td className="px-3 py-3" style={{ fontFamily: mono, fontSize: 12, color: C.inkDim }}>
                       {p.display_order}

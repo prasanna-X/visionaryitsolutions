@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, User, Inbox, Shield, Wrench, Package, Users, Settings } from "lucide-react";
+import { LayoutGrid, User, Inbox, Shield, Wrench, Package, Building2, Settings } from "lucide-react";
 import { C, display, mono } from "@/components/tokens";
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/dashboard", icon: LayoutGrid },
+  { label: "My Company", href: "/dashboard/company", icon: Building2 },
   { label: "My Profile", href: "/dashboard/profile", icon: User },
   { label: "Submissions", href: "/dashboard/contact-submissions", icon: Inbox },
   { label: "Admins", href: "/dashboard/admins", icon: Shield },
   { label: "Services", href: "/dashboard/services", icon: Wrench },
   { label: "Products", href: "/dashboard/products", icon: Package },
-  { label: "Team Members", href: "/dashboard/team-members", icon: Users },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -21,12 +21,13 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="hidden md:flex flex-col w-60 flex-none min-h-screen px-5 py-6"
+      className="hidden md:flex flex-col w-60 flex-none min-h-screen px-5 py-4"
       style={{ background: C.panel2, borderRight: `1px solid ${C.line}` }}
     >
       <div className="flex items-center gap-2 px-2 mb-8">
         {/* <CloverMark size={20} fill={C.accent} /> */}
-        <span style={{ fontFamily: display, fontWeight: 700, fontSize: 17, letterSpacing: 0.5 }}>
+        <img src="/images/vits_logo_inv.png" alt="vivaanitsolutions" className="w-14 h-14 rounded-full object-cover" style={{ background: C.panel }} />
+        <span style={{ fontFamily: display, fontWeight: 700, fontSize: 16, letterSpacing: 0.5 }}>
           VIVAAN IT SOLUTIONS
         </span>
       </div>

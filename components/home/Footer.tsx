@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <Image
-            src="/images/vits_logo_inverse.png"
+            src="/images/vits_logo_inv.png"
             alt="VIVAAN IT Solutions logo"
             width={50}
             height={50}
@@ -21,7 +21,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2" style={{ fontFamily: mono, fontSize: 12.5, color: C.inkDim }}>
-          <span>New Naikap, Chandragiri-14, Kathmandu</span>
+          <span>Chandragiri-14, Kathmandu, Bagmati Province, Nepal.</span>
           <a href="tel:+9779864482678" style={{ color: C.inkDim }} className="hover:underline">
             +977 986-4482678
           </a>

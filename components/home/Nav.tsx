@@ -29,7 +29,7 @@ export default function Nav() {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         <a href="#top" className="flex items-center gap-3 focus-ring">
           <Image
-            src="/images/logo/vits_logo_inverse.png"
+            src="/images/vits_logo_inv.png"
             alt="VIVAAN IT Solutions logo"
             width={50}
             height={50}

@@ -37,9 +37,9 @@ export default function ContactPage() {
                   <MapPin size={16} color={C.accentSoft} />
                 </span>
                 <span style={{ color: C.inkDim, lineHeight: 1.6, fontSize: 15 }}>
-                  New Naikap, Chandragiri&#8209;14
+                  Chandragiri&#8209;14, Kathmandu
                   <br />
-                  Kathmandu, Nepal
+                  Bagmati Province, Nepal
                 </span>
               </div>
             </div>
