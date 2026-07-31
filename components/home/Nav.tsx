@@ -29,15 +29,15 @@ export default function Nav() {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         <a href="#top" className="flex items-center gap-3 focus-ring">
           <Image
-            src="/images/vits_logo_inv.png"
+            src="/icons/VITSIconSideTrans.png"
             alt="VIVAAN IT Solutions logo"
-            width={50}
-            height={50}
-            style={{ width: 50, height: 50, objectFit: "contain" }}
+            width={180}
+            height={60}
+            style={{ width: 180, height: 60, objectFit: "contain" }}
           />
-          <span style={{ fontFamily: display, fontWeight: 700, letterSpacing: 1 }} className="text-lg">
-            VIVAAN <span style={{ color: C.accent }}>IT</span> SOLUTIONS
-          </span>
+          {/* <span style={{ fontFamily: display, fontWeight: 700, letterSpacing: 1, lineHeight: 1 }} className="text-lg">
+            VIVAAN <span style={{ color: C.accent }}>IT</span> <br /> <span style={{ fontSize: 15 }}>SOLUTIONS</span>
+          </span> */}
         </a>
 
         <nav className="hidden md:flex items-center gap-8">

@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <Image
-            src="/images/vits_logo_inv.png"
+            src="/icons/VITSIconTrans.png"
             alt="VIVAAN IT Solutions logo"
             width={50}
             height={50}

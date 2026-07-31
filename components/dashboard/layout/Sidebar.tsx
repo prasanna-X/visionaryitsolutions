@@ -25,11 +25,10 @@ export default function Sidebar() {
       style={{ background: C.panel2, borderRight: `1px solid ${C.line}` }}
     >
       <div className="flex items-center gap-2 px-2 mb-8">
-        {/* <CloverMark size={20} fill={C.accent} /> */}
-        <img src="/images/vits_logo_inv.png" alt="vivaanitsolutions" className="w-14 h-14 rounded-full object-cover" style={{ background: C.panel }} />
-        <span style={{ fontFamily: display, fontWeight: 700, fontSize: 16, letterSpacing: 0.5 }}>
+        <img src="/icons/VITSIconSideTrans.png" alt="vivaanitsolutions" className="w-48 h-14 rounded-full object-cover" style={{ background: C.panel }} />
+        {/* <span style={{ fontFamily: display, fontWeight: 700, fontSize: 16, letterSpacing: 0.5 }}>
           VIVAAN IT SOLUTIONS
-        </span>
+        </span> */}
       </div>
 
       <nav className="flex flex-col gap-1">

@@ -36,7 +36,7 @@ body {
 }
 
 .float-badge {
-  animation: floatSlow 7s ease-in-out infinite;
+  animation: floatSlow 6s ease-in-out infinite;
 }
 
 .service-card {
@@ -72,3 +72,15 @@ body {
   border-color: #7fb99a;
 }
 
+@keyframes waBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.wa-button-pop {
+  animation: waBounce 1.8s ease-in-out infinite;
+}
