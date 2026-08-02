@@ -54,7 +54,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const Icon = getServiceIcon(icon);
 
   return (
-    <article className="max-w-5xl mx-auto px-6 py-20 md:py-28">
+    <article className="max-w-5xl mx-auto px-6 pt-8 pb-20 md:pt-10 md:pb-28">
       <Link
         href="/services"
         className="inline-flex items-center gap-2 mb-10 focus-ring"
