@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { PRODUCT_ICONS } from "@/components/home/productIcons";
 import { C, mono } from "@/components/tokens";
@@ -11,17 +11,59 @@ const ICON_OPTIONS = Object.keys(PRODUCT_ICONS);
 export default function ProductForm({ product }: { product?: Product | null }) {
   const router = useRouter();
   const isEdit = Boolean(product?.id);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [form, setForm] = useState({
     slug: product?.slug ?? "",
     title: product?.title ?? "",
     category: product?.category ?? "",
     description: product?.description ?? "",
-    logo: product?.logo ?? ICON_OPTIONS[0],
+    icon: product?.icon || ICON_OPTIONS[0],
+    logo: product?.logo ?? "",
     website_url: product?.website_url ?? "",
     display_order: product?.display_order ?? 0,
   });
+  const [logoPreview, setLogoPreview] = useState<string | null>(product?.logo ?? null);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setError("");
+
+    // show local preview immediately while the upload is in flight
+    const localPreview = URL.createObjectURL(file);
+    setLogoPreview(localPreview);
+
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) throw new Error(data.error || "Failed to upload image.");
+
+      setForm((f) => ({ ...f, logo: data.url }));
+      setLogoPreview(data.url);
+    } catch (err: any) {
+      setError(err.message || "Failed to upload image.");
+      setLogoPreview(product?.logo ?? null);
+      setForm((f) => ({ ...f, logo: product?.logo ?? "" }));
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function handleRemoveLogo() {
+    setForm((f) => ({ ...f, logo: "" }));
+    setLogoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -95,8 +137,8 @@ export default function ProductForm({ product }: { product?: Product | null }) {
         <div>
           <label style={labelStyle} className="block mb-2 uppercase">Icon</label>
           <select
-            value={form.logo}
-            onChange={(e) => setForm({ ...form, logo: e.target.value })}
+            value={form.icon}
+            onChange={(e) => setForm({ ...form, icon: e.target.value })}
             className="w-full px-4 py-3 rounded-lg focus-ring"
             style={inputStyle}
           >
@@ -104,6 +146,49 @@ export default function ProductForm({ product }: { product?: Product | null }) {
               <option key={key} value={key}>{key}</option>
             ))}
           </select>
+          <p style={{ fontFamily: mono, fontSize: 11, color: C.inkFaint }} className="mt-1.5">
+            Used when no logo image is set below.
+          </p>
+        </div>
+
+        <div>
+          <label style={labelStyle} className="block mb-2 uppercase">Logo image</label>
+          <div className="flex items-center gap-4">
+            {logoPreview && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoPreview}
+                alt="Logo preview"
+                className="rounded-lg object-contain"
+                style={{ width: 56, height: 56, background: C.panel, border: `1px solid ${C.line}` }}
+              />
+            )}
+            <div className="flex-1">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                onChange={handleFileChange}
+                className="w-full px-4 py-3 rounded-lg focus-ring"
+                style={inputStyle}
+              />
+              {uploading && (
+                <p style={{ fontFamily: mono, fontSize: 12, color: C.inkDim }} className="mt-1.5">
+                  Uploading…
+                </p>
+              )}
+              {logoPreview && !uploading && (
+                <button
+                  type="button"
+                  onClick={handleRemoveLogo}
+                  style={{ fontFamily: mono, fontSize: 11, color: C.inkDim, textDecoration: "underline" }}
+                  className="mt-1.5"
+                >
+                  Remove image
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         <div>
@@ -146,9 +231,9 @@ export default function ProductForm({ product }: { product?: Product | null }) {
         <div className="flex gap-3 mt-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || uploading}
             className="px-6 py-3 rounded-full focus-ring"
-            style={{ background: C.accent, color: C.bg, fontWeight: 600, fontSize: 14, opacity: saving ? 0.6 : 1 }}
+            style={{ background: C.accent, color: C.bg, fontWeight: 600, fontSize: 14, opacity: saving || uploading ? 0.6 : 1 }}
           >
             {saving ? "Saving…" : isEdit ? "Save changes" : "Create product"}
           </button>

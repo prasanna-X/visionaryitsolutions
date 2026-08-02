@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   category: string;
   logo?: string | null;
+  icon: string;
   tagline?: string | null;
   website_url?: string | null;
   status: 'draft' | 'published' | 'archived';

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { C, display, mono } from "@/components/tokens";
 import { getAllProducts } from "@/lib/services/productService";
-import { getProductIcon, isImageSrc } from "@/components/home/productIcons";
+import { getProductIcon } from "@/components/home/productIcons";
 import type { Product } from "@/types/product";
 
 export const metadata = { title: "Products — Visionary IT Solutions" };
@@ -18,6 +18,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     description:
       "An online booking and scheduling platform for service businesses — clients book appointments in real time while you manage availability, staff, and payments from one dashboard.",
     logo: null,
+    icon: "calendar",
     website_url: "https://visionbookings.com",
     status: "published",
     featured: false,
@@ -34,6 +35,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     description:
       "A homegrown ecommerce marketplace spotlighting Nepali-made products, built to help local makers and brands sell online with secure checkout and order tracking.",
     logo: null,
+    icon: "shopping-bag",
     website_url: "https://thenepalmade.com",
     status: "published",
     featured: false,
@@ -50,6 +52,7 @@ const FALLBACK_PRODUCTS: Product[] = [
     description:
       "A streaming platform for on-demand video, delivering subscription-based access to movies, series, and original content with a smooth, cross-device viewing experience.",
     logo: null,
+    icon: "play-circle",
     website_url: "https://visionflix.com",
     status: "published",
     featured: false,
@@ -60,32 +63,36 @@ const FALLBACK_PRODUCTS: Product[] = [
 ];
 
 function ProductMark({ product }: { product: Product }) {
-  // logo may be a real image URL (Supabase storage / external) OR an icon
-  // keyword like "calendar" left over from earlier data. Handle both.
-  if (isImageSrc(product.logo)) {
-    return (
-      <div
-        className="w-11 h-11 rounded-full flex items-center justify-center overflow-hidden"
-        style={{ background: C.accentDeep }}
-      >
-        <Image src={product.logo} alt={`${product.title} logo`} width={28} height={28} className="object-contain" />
-      </div>
-    );
-  }
-
   if (product.logo) {
-    const Icon = getProductIcon(product.logo);
     return (
       <div
-        className="w-11 h-11 rounded-full flex items-center justify-center"
-        style={{ background: C.accentDeep }}
+        className="w-full h-40 rounded-xl flex items-center justify-center overflow-hidden p-6"
+        style={{ background: C.panel }}
       >
-        <Icon size={20} color={C.accentSoft} />
+        <Image
+          src={product.logo}
+          alt={`${product.title} logo`}
+          width={200}
+          height={100}
+          className="w-full h-full object-contain"
+        />
       </div>
     );
   }
 
-  // Fallback: initials monogram when no logo is set
+  if (product.icon) {
+    const Icon = getProductIcon(product.icon);
+    return (
+      <div
+        className="w-full h-40 rounded-xl flex items-center justify-center"
+        style={{ background: C.accentDeep }}
+      >
+        <Icon size={40} color={C.accentSoft} />
+      </div>
+    );
+  }
+
+  // Fallback: initials monogram when no logo or icon is set
   const initials = product.title
     .split(" ")
     .map((w) => w[0])
@@ -95,15 +102,14 @@ function ProductMark({ product }: { product: Product }) {
 
   return (
     <div
-      className="w-11 h-11 rounded-full flex items-center justify-center"
+      className="w-full h-40 rounded-xl flex items-center justify-center"
       style={{ background: C.accentDeep }}
     >
-      <span style={{ fontFamily: display, fontWeight: 700, color: C.accentSoft, fontSize: 14 }}>{initials}</span>
+      <span style={{ fontFamily: display, fontWeight: 700, color: C.accentSoft, fontSize: 32 }}>{initials}</span>
     </div>
   );
 }
 
-// "/products" — Supabase-backed (public anon client, respects RLS). Nav.tsx links here directly.
 export default async function ProductsPage() {
   let products: Product[] = [];
   try {
@@ -141,51 +147,51 @@ export default async function ProductsPage() {
                 href={p.website_url || "#"}
                 target={p.website_url ? "_blank" : undefined}
                 rel={p.website_url ? "noopener noreferrer" : undefined}
-                className="service-card p-7 rounded-2xl focus-ring group flex flex-col"
-                style={{ background: C.panel, border: `1px solid ${C.line}` }}
+                className="service-card p-7 rounded-2xl focus-ring group flex flex-col min-w-0"
+                style={{ background: C.bg, border: `1px solid ${C.line}` }}
               >
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="mb-0 shrink-0">
-                    <ProductMark product={p} />
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg">
-                        {p.title}
-                      </h3>
-                      {p.featured && (
-                        <span
-                          style={{ fontFamily: mono, fontSize: 10, color: C.accent, textTransform: "uppercase" }}
-                        >
-                          Featured
-                        </span>
-                      )}
-                      <ArrowUpRight
-                        size={16}
-                        color={C.inkDim}
-                        className="opacity-0 group-hover:opacity-70 transition-opacity"
-                      />
-                    </div>
-                    <span
-                      style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1.5, color: C.accent, textTransform: "uppercase" }}
-                    >
-                      {p.category}
-                    </span>
-                  </div>
+                <div className="mb-3">
+                  <ProductMark product={p} />
                 </div>
-                {p.tagline && (
-                  <p style={{ color: C.ink, fontSize: 13, fontStyle: "italic" }} className="mb-2">
-                    {p.tagline}
-                  </p>
-                )}
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg">
+                      {p.title}
+                    </h3>
+                    {p.featured && (
+                      <span
+                        style={{ fontFamily: mono, fontSize: 10, color: C.accent, textTransform: "uppercase" }}
+                      >
+                        Featured
+                      </span>
+                    )}
+                    <ArrowUpRight
+                      size={16}
+                      color={C.inkDim}
+                    />
+                  </div>
+                  <span
+                    style={{ fontFamily: mono, fontSize: 12, letterSpacing: 1.5, color: C.accent, textTransform: "uppercase" }}
+                  >
+                    {p.category}
+                  </span>
+                </div>
 
-                <p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{p.description}</p>
+                {
+                  p.tagline && (
+                    <p style={{ color: C.ink, fontSize: 13, fontStyle: "italic" }} className="mb-2">
+                      {p.tagline}
+                    </p>
+                  )
+                }
+
+                {/* < p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{p.description}</p> */}
               </Link>
             ))}
           </div>
-        )}
-      </div>
-    </main>
+        )
+        }
+      </div >
+    </main >
   );
 }

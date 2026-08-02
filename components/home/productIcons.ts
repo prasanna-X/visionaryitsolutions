@@ -4,6 +4,7 @@ import {
   ShoppingBag,
   Video,
   Package,
+  UserPlus,
   type LucideIcon,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ export const PRODUCT_ICONS: Record<string, LucideIcon> = {
   shoppingbag: ShoppingBag,
   video: Video,
   package: Package,
+  userplus: UserPlus
 };
 
 // Kept for any existing imports; same data as PRODUCT_ICONS.

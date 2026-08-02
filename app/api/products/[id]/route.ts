@@ -38,7 +38,7 @@ export async function PATCH(request: Request, { params }: Params) {
     const body = await request.json();
 
     // Only allow known-safe fields to be updated this way
-    const allowed = ["status", "display_order", "title", "category", "slug", "logo"];
+    const allowed = ["status", "display_order", "title", "category", "slug", "logo", "icon"];
     const input = Object.fromEntries(
       Object.entries(body).filter(([key]) => allowed.includes(key))
     );

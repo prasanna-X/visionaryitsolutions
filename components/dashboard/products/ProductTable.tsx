@@ -139,7 +139,7 @@ export default function ProductTable({ products }: { products: Product[] }) {
             </thead>
             <tbody>
               {rows.map((p, i) => {
-                const Icon = getProductIcon(p.logo);
+                const Icon = getProductIcon(p.icon);
                 const isPublished = p.status === "published";
                 const isUpdating = updatingId === p.id;
                 return (
@@ -151,8 +151,13 @@ export default function ProductTable({ products }: { products: Product[] }) {
                     }}
                   >
                     <td className="px-5 py-3">
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: C.accentDeep }}>
-                        <Icon size={16} color={C.accentSoft} />
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden" style={{ background: C.accentDeep }}>
+                        {p.logo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={p.logo} alt="" className="w-full h-full object-contain" />
+                        ) : (
+                          <Icon size={16} color={C.accentSoft} />
+                        )}
                       </div>
                     </td>
                     <td className="px-3 py-3" style={{ fontFamily: display, fontWeight: 600, fontSize: 14.5, color: C.ink }}>
