@@ -17,7 +17,7 @@ function Field({ label, value }: { label: string; value?: string | number | null
     return (
         <div className="py-3" style={{ borderBottom: `1px solid ${C.line}` }}>
             <div style={headerStyle} className="mb-1">{label}</div>
-            <div style={{ color: C.ink, fontSize: 14.5 }}>{value}</div>
+            <div style={{ color: C.ink, fontSize: 14.5, whiteSpace: "pre-wrap" }}>{value}</div>
         </div>
     );
 }
@@ -58,7 +58,8 @@ export default function CompanyDetailsView({
                         </div>
                     </div>
 
-                    <Field label="Description" value={company.description} />
+                    <Field label="Short Description" value={company.short_desc} />
+                    <Field label="Long Description" value={company.long_desc} />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                         <Field label="Email" value={company.email} />

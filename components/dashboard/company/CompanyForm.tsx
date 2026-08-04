@@ -71,7 +71,8 @@ export default function CompanyForm({
     const [form, setForm] = useState<CompanyDetailsInput>({
         name: company?.name ?? "",
         tagline: company?.tagline ?? "",
-        description: company?.description ?? "",
+        short_desc: company?.short_desc ?? "",
+        long_desc: company?.long_desc ?? "",
         logo_url: company?.logo_url ?? "",
         favicon_url: company?.favicon_url ?? "",
         email: company?.email ?? "",
@@ -162,11 +163,23 @@ export default function CompanyForm({
                     <Input label="Tagline" name="tagline" value={form.tagline ?? ""} onChange={update} />
                 </div>
                 <label className="flex flex-col gap-1.5 mt-4">
-                    <span style={labelStyle}>Description</span>
+                    <span style={labelStyle}>Short Description</span>
                     <textarea
-                        value={form.description ?? ""}
-                        onChange={(e) => update("description", e.target.value)}
+                        value={form.short_desc ?? ""}
+                        onChange={(e) => update("short_desc", e.target.value)}
                         rows={3}
+                        maxLength={2000}
+                        className="w-full px-3 py-2 rounded-lg focus-ring"
+                        style={inputStyle}
+                    />
+                </label>
+                <label className="flex flex-col gap-1.5 mt-4">
+                    <span style={labelStyle}>Long Description</span>
+                    <textarea
+                        value={form.long_desc ?? ""}
+                        onChange={(e) => update("long_desc", e.target.value)}
+                        rows={6}
+                        maxLength={5000}
                         className="w-full px-3 py-2 rounded-lg focus-ring"
                         style={inputStyle}
                     />

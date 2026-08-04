@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutGrid, User, Inbox, Shield, Wrench, Package, Building2, Settings,
-  X,
+  MessageCircle, X,
 } from "lucide-react";
 import { C, display, mono } from "@/components/tokens";
 import { useSidebar } from "./SidebarContext";
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { label: "My Company", href: "/dashboard/company", icon: Building2 },
   { label: "My Profile", href: "/dashboard/profile", icon: User },
   { label: "Submissions", href: "/dashboard/contact-submissions", icon: Inbox },
+  { label: "Chat", href: "/dashboard/chat", icon: MessageCircle },
   { label: "Admins", href: "/dashboard/admins", icon: Shield },
   { label: "Services", href: "/dashboard/services", icon: Wrench },
   { label: "Products", href: "/dashboard/products", icon: Package },

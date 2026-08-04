@@ -4,6 +4,7 @@ import { CloverMark } from "@/components/home/Marks";
 import { getServiceIcon } from "@/components/home/serviceIcons";
 import { C, display, mono } from "@/components/tokens";
 import { getAllServices } from "@/lib/services/serviceService";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata = { title: "Services — Visionary IT Solutions" };
 
@@ -85,15 +86,22 @@ export default async function ServicesPage() {
               <Link
                 key={s.id}
                 href={`/services/${s.slug}`}
-                className="service-card p-7 rounded-2xl focus-ring"
+                className="service-card p-7 rounded-2xl focus-ring group"
                 style={{ background: C.panel, border: `1px solid ${C.line}` }}
               >
                 <div className="w-11 h-11 rounded-full flex items-center justify-center mb-6" style={{ background: C.accentDeep }}>
                   <Icon size={20} color={C.accentSoft} />
                 </div>
-                <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg mb-2">
-                  {s.title}
-                </h3>
+                <div className="flex items-center gap-2">
+                  <h3 style={{ fontFamily: display, fontWeight: 600 }} className="text-lg mb-2">
+                    {s.title}
+                  </h3>
+                  <ArrowUpRight
+                    size={16}
+                    color={C.inkDim}
+                    className="opacity-0 group-hover:opacity-70 transition-opacity duration-200"
+                  />
+                </div>
                 <p style={{ color: C.inkDim, fontSize: 14.5, lineHeight: 1.65 }}>{s.description}</p>
               </Link>
             );

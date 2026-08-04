@@ -2,8 +2,8 @@ export interface CompanyDetails {
     id: string;
     name: string;
     tagline: string | null;
-    description: string | null;
-    logo_url: string | null;
+    short_desc: string | null;
+    long_desc: string | null; logo_url: string | null;
     favicon_url: string | null;
     email: string | null;
     phone: string | null;
