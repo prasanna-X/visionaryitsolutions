@@ -213,7 +213,7 @@ export default function ChatWidget() {
                     aria-label={isOpen ? "Close chat" : "Chat with the VITS assistant"}
                     className="relative flex items-center justify-center w-14 h-14 rounded-full focus-ring transition-transform duration-300 ease-out hover:scale-110 active:scale-95"
                     style={{
-                        background: C.accent,
+                        background: "#25D366",
                         boxShadow: "0 4px 16px rgba(0,0,0,0.35)",
                     }}
                 >
